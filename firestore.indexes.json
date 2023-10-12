@@ -1,0 +1,59 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Attendance",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Email",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Entry",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Attendance",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Email",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Entry",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Attendance",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Email",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "Entry",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
