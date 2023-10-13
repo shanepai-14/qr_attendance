@@ -38,6 +38,9 @@ class UpdateProfileScreen extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
                   UserModel userData = snapshot.data as UserModel;
+                  String imagePath = userData.usertype.toString() == "Student"
+                      ? StudentImage
+                      : GuardImage;
                   return Column(
                     children: [
                       Stack(
@@ -49,7 +52,7 @@ class UpdateProfileScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image(
-                                image: AssetImage(tProfileImage),
+                                image: AssetImage(imagePath),
                               ),
                             ),
                           ),

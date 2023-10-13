@@ -63,7 +63,20 @@ class UserRepository extends GetxController {
   }
 
   Future<List<AttendanceModel>> getAllStudentAttendance() async {
-    final snapshot = await _db.collection("Attendance").get();
+    final snapshot = await _db
+        .collection("Attendance")
+        .where("usertype", isEqualTo: "Student")
+        .get();
+    final attendanceData =
+        snapshot.docs.map((e) => AttendanceModel.fromSnapshot(e)).toList();
+    return attendanceData;
+  }
+
+  Future<List<AttendanceModel>> getAllEmployeeAttendance() async {
+    final snapshot = await _db
+        .collection("Attendance")
+        .where("usertype", isEqualTo: "Employee")
+        .get();
     final attendanceData =
         snapshot.docs.map((e) => AttendanceModel.fromSnapshot(e)).toList();
     return attendanceData;

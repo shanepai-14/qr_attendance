@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
 import 'package:qr_attendance/screens/auth/models/user_model.dart';
@@ -39,4 +40,53 @@ class ProfileController extends GetxController {
 
     return filteredAttendance;
   }
+
+  Future<List<AttendanceModel>> getAttendanceForDateRange(
+      DateTimeRange dateRange) async {
+    final List<AttendanceModel> allAttendance = await getAllAttendance();
+
+    List<AttendanceModel> filteredAttendance =
+        allAttendance.where((attendance) {
+      DateTime checkinDate = attendance.checkin?.toDate() ??
+          DateTime(
+              2023, 10, 13); // Replace with a default date if checkin is null
+      return dateRange.start.isBefore(checkinDate) &&
+          dateRange.end.isAfter(checkinDate);
+    }).toList();
+
+    filteredAttendance.sort((a, b) => b.checkin!.compareTo(a.checkin!));
+    return filteredAttendance;
+  }
+
+  // Future<List<AttendanceModel>> getAttendanceForDateRange(
+  //   DateTimeRange? dateRange,
+  // ) async {
+  //   final List<AttendanceModel> allAttendance = await getAllAttendance();
+  //
+  //   List<AttendanceModel> filteredAttendance = [];
+  //
+  //   if (dateRange != null) {
+  //     filteredAttendance = allAttendance.where((attendance) {
+  //       DateTime checkinDate = attendance.checkin?.toDate() ??
+  //           DateTime(
+  //               2023, 10, 13); // Replace with a default date if checkin is null
+  //       return dateRange.start.isBefore(checkinDate) &&
+  //           dateRange.end.isAfter(checkinDate);
+  //     }).toList();
+  //
+  //     filteredAttendance.sort((a, b) => b.checkin!.compareTo(a.checkin!));
+  //   } else {
+  //     // If dateRange is null, add today's date to the list
+  //     DateTime today = DateTime.now();
+  //     filteredAttendance = allAttendance.where((attendance) {
+  //       DateTime checkinDate = attendance.checkin?.toDate() ??
+  //           DateTime.now(); // Replace with a default date if checkin is null
+  //       return today.isAtSameMomentAs(checkinDate);
+  //     }).toList();
+  //
+  //     filteredAttendance.sort((a, b) => b.checkin!.compareTo(a.checkin!));
+  //   }
+  //
+  //   return filteredAttendance;
+  // }
 }
