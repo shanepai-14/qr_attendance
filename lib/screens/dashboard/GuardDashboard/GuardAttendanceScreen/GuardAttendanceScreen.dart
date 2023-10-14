@@ -1,13 +1,16 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
-import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
 import 'package:qr_attendance/screens/dashboard/ProfileScreen/ProfileScreen.dart';
-
-import '../../../auth/controllers/profile_controller.dart';
+import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:android_path_provider/android_path_provider.dart';
 
 class GuardAttendanceScreen extends StatefulWidget {
   const GuardAttendanceScreen({Key? key}) : super(key: key);
@@ -34,7 +37,41 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
     start: DateTime(selectedDate.year, selectedDate.month, selectedDate.day),
     end: DateTime.now().add(Duration(days: 1)),
   );
-  bool _isSearchExpanded = false;
+  List<AttendanceModel> filteredAttendance = [];
+  Future<void> _exportData() async {
+    // Show a dialog for confirmation
+    bool confirmExport = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Export Data'),
+          content: Text('Are you sure you want to export the data?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirmed export
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Cancel export
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmExport == true) {
+      // User confirmed export, proceed with exporting data
+      // Implement your export logic here
+
+      exportData(filteredAttendance);
+    }
+  }
+
   Future<void> _selectDateRange(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
@@ -65,6 +102,64 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
     }
   }
 
+  Future<void> exportData(List<AttendanceModel> data) async {
+    // Create a list of rows for the Excel file
+    List<List<String>> rows = [];
+
+    // Add headers to the rows
+    rows.add(['Full Name', 'Course', 'Year', 'Checkin Date', 'Checkout Date']);
+
+    // Populate rows with data from AttendanceModel
+    for (var attendance in data) {
+      rows.add([
+        attendance.fullName,
+        attendance.course,
+        attendance.year,
+        formatTimestamp(attendance.checkin, 'MMM d, y, hh:mm a'),
+        formatTimestamp(attendance.checkout, 'MMM d, y, hh:mm a'),
+      ]);
+    }
+
+    // Create an Excel file
+    var excel = Excel.createExcel();
+
+    // Add the rows to the Excel file
+    for (var row in rows) {
+      var sheet = excel['Sheet1'];
+      sheet.insertRowIterables(row, sheet.maxRows, overwriteMergedCells: true);
+    }
+    var random = Random();
+    var randomNumbers = random.nextInt(1000); // Adjust as needed
+
+    // Get the current date and time
+    var now = DateTime.now();
+    var formattedDate = DateFormat('MM_dd_yy-HHmmss').format(now);
+    // Get the directory for saving the file
+    String directory = await AndroidPathProvider.documentsPath;
+    String filePath =
+        '${directory}/attendance_data_${formattedDate}_$randomNumbers.xlsx';
+
+    // Save the Excel file
+    List<int>? excelBytes = excel.encode();
+    File(filePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(excelBytes!);
+    Get.snackbar(
+      'Succesfully',
+      'Saved file in documents',
+      backgroundColor: Colors.grey.withOpacity(0.8),
+      colorText: Colors.white, // Adjust text color as needed
+      snackPosition: SnackPosition.TOP,
+      snackStyle: SnackStyle.FLOATING,
+      // Adjust margin as needed
+      borderRadius: 10, // Adjust border radius as needed
+    );
+
+    print('File saved at: $filePath');
+  }
+
+  bool _isSearchExpanded = false;
+  String _selectedFilter = 'Course';
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime(1999, 8, 30, 12, 34);
@@ -88,6 +183,10 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
       return formattedDate;
     }
 
+    String formattedStartDate =
+        DateFormat('MMM d,yyyy').format(selectedDateRange.start);
+    String formattedStartEnd =
+        DateFormat('MMM d,yyyy').format(selectedDateRange.end);
     return Scaffold(
         appBar: AppBar(
           leading: _isSearchExpanded
@@ -135,63 +234,104 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: courseCategories.map((course) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 0,
-                      vertical: 0), // Adjust the padding as needed
-                  child: FilterChip(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    selectedColor: Colors.lightBlueAccent,
-                    label: Text(course),
-                    selected: selectedCourses.contains(course),
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) {
-                          selectedCourses.add(course);
-                        } else {
-                          selectedCourses.remove(course);
-                        }
-                      });
-                    },
+            Column(
+              children: [
+                Visibility(
+                  visible: _isSearchExpanded,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: courseCategories.map((course) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 0,
+                            vertical: 0), // Adjust the padding as needed
+                        child: FilterChip(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          selectedColor: Colors.lightBlueAccent,
+                          label: Text(course),
+                          selected: selectedCourses.contains(course),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                selectedCourses.add(course);
+                              } else {
+                                selectedCourses.remove(course);
+                              }
+                            });
+                          },
+                        ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Visibility(
+                  visible: _isSearchExpanded,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: yearCategories.map((years) {
+                      return FilterChip(
+                        materialTapTargetSize: MaterialTapTargetSize
+                            .shrinkWrap, // Adjust the hit area
+                        // Customize background color
+                        selectedColor:
+                            Colors.lightBlueAccent, // Customize selected color
+                        label: Text(years),
+                        selected: selectedYears.contains(years),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            setState(() {
+                              if (selected) {
+                                selectedYears.add(years);
+                              } else {
+                                selectedYears.remove(years);
+                              }
+                            });
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: yearCategories.map((years) {
-                return FilterChip(
-                  materialTapTargetSize:
-                      MaterialTapTargetSize.shrinkWrap, // Adjust the hit area
-                  // Customize background color
-                  selectedColor:
-                      Colors.lightBlueAccent, // Customize selected color
-                  label: Text(years),
-                  selected: selectedYears.contains(years),
-                  onSelected: (bool selected) {
-                    setState(() {
-                      setState(() {
-                        if (selected) {
-                          selectedYears.add(years);
-                        } else {
-                          selectedYears.remove(years);
-                        }
-                      });
-                    });
-                  },
-                );
-              }).toList(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${formattedStartDate} - ${formattedStartEnd} ',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    TextButton(
+                        onPressed: _exportData,
+                        child: Text(
+                          'Export',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: TextButton.styleFrom(
+                            backgroundColor:
+                                Colors.lightBlueAccent, // Background color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            )))
+                  ]),
             ),
             Expanded(
+              //Student data
               child: FutureBuilder<List<AttendanceModel>>(
                 future: controller.getAttendanceForDateRange(selectedDateRange),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      List<AttendanceModel> filteredAttendance = snapshot.data!;
+                      filteredAttendance = snapshot.data!;
                       if (selectedCourses.isNotEmpty) {
                         filteredAttendance =
                             filteredAttendance.where((attendance) {
@@ -278,5 +418,13 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
             )
           ],
         ));
+  }
+
+  String formatTimestamp(Timestamp? timestamp, String format) {
+    if (timestamp == null) return '';
+
+    DateTime dateTime = timestamp.toDate();
+    String formattedDate = DateFormat(format).format(dateTime);
+    return formattedDate;
   }
 }

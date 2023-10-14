@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:qr_attendance/screens/auth/controllers/signup_contoller.dart';
 import 'package:qr_attendance/screens/auth/models/user_model.dart';
 import 'package:qr_attendance/screens/repository/user_repository/user_repository.dart';
 
-class SignUpFormWidget extends StatelessWidget {
+class SignUpFormWidget extends StatefulWidget {
   const SignUpFormWidget({
     super.key,
   });
 
   @override
+  _SignUpFormWidgetState createState() => _SignUpFormWidgetState();
+}
+
+class _SignUpFormWidgetState extends State<SignUpFormWidget> {
+  String? selectedCourse;
+  String? selectedYear;
+  bool obscurePassword = true;
+  final controller = Get.put(SignUpController());
+  final _formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignUpController());
-    final _formKey = GlobalKey<FormState>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       child: Form(
@@ -47,9 +55,14 @@ class SignUpFormWidget extends StatelessWidget {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2.0, color: Colors.black))),
             ),
-            TextFormField(
-              controller: controller.phone,
-              decoration: InputDecoration(
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus(); // Dismiss keyboard
+              },
+              child: TextFormField(
+                controller: controller.phone,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
                   label: Text("Phone"),
                   prefixIcon: Icon(
                     Icons.phone_android_outlined,
@@ -58,46 +71,98 @@ class SignUpFormWidget extends StatelessWidget {
                   labelStyle: TextStyle(color: Colors.black),
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2.0, color: Colors.black))),
-            ),
-            TextFormField(
-              controller: controller.course,
-              decoration: InputDecoration(
-                  label: Text("Course"),
-                  prefixIcon: Icon(
-                    Icons.book_online_outlined,
-                    color: Colors.black,
+                    borderSide: BorderSide(width: 2.0, color: Colors.black),
                   ),
-                  labelStyle: TextStyle(color: Colors.black),
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2.0, color: Colors.black))),
+                ),
+              ),
             ),
-            TextFormField(
-              controller: controller.year,
+            DropdownButtonFormField<String>(
+              value: selectedCourse,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedCourse = newValue;
+                });
+              },
+              items: <String>['BSIT', 'BEED', 'BSED', 'THEO', 'SHS']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
               decoration: InputDecoration(
-                  label: Text("Year"),
-                  prefixIcon: Icon(
-                    Icons.school_outlined,
-                    color: Colors.black,
-                  ),
-                  labelStyle: TextStyle(color: Colors.black),
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2.0, color: Colors.black))),
+                labelText: "Course",
+                prefixIcon: Icon(
+                  Icons.book_online_outlined,
+                  color: Colors.black,
+                ),
+                labelStyle: TextStyle(color: Colors.black),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2.0, color: Colors.black),
+                ),
+              ),
+            ),
+            DropdownButtonFormField<String>(
+              value: selectedYear,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedYear = newValue;
+                });
+              },
+              items: <String>[
+                '1st Year',
+                '2nd Year',
+                '3rd Year',
+                '4th Year',
+                'Grade 11',
+                'Grade 12',
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: "Year",
+                prefixIcon: Icon(
+                  Icons.book_online_outlined,
+                  color: Colors.black,
+                ),
+                labelStyle: TextStyle(color: Colors.black),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2.0, color: Colors.black),
+                ),
+              ),
             ),
             TextFormField(
               controller: controller.password,
+              obscureText:
+                  obscurePassword, // Use obscurePassword to hide/unhide password
               decoration: InputDecoration(
-                  label: Text("Password"),
-                  prefixIcon: Icon(
-                    Icons.fingerprint_outlined,
+                label: Text("Password"),
+                prefixIcon: Icon(
+                  Icons.fingerprint_outlined,
+                  color: Colors.black,
+                ),
+                labelStyle: TextStyle(color: Colors.black),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscurePassword ? Icons.visibility : Icons.visibility_off,
                     color: Colors.black,
                   ),
-                  labelStyle: TextStyle(color: Colors.black),
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2.0, color: Colors.white))),
+                  onPressed: () {
+                    setState(() {
+                      obscurePassword = !obscurePassword;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2.0, color: Colors.white),
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -107,18 +172,14 @@ class SignUpFormWidget extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      //Email & Password Authentication
-                      // SignUpController.instance.registerUser(
-                      //     controller.email.text.trim(),
-                      //     controller.password.text.trim());
-
                       final user = UserModel(
                           email: controller.email.text.trim(),
                           password: controller.password.text.trim(),
                           fullName: controller.fullname.text.trim(),
-                          course: controller.course.text.trim(),
+                          course: selectedCourse,
                           phoneNo: controller.phone.text.trim(),
-                          year: controller.year.text.trim());
+                          year: selectedYear,
+                          usertype: "Student");
 
                       SignUpController.instance.createUser(
                           user,

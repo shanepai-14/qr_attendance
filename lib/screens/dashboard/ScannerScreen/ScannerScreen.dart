@@ -58,7 +58,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         leading: IconButton(
             onPressed: () {}, icon: const Icon(LineAwesomeIcons.heartbeat)),
         title: Text(
-          "Student QR Code",
+          "QR Code",
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [

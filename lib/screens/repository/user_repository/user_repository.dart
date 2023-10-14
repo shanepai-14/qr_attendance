@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
 import 'package:qr_attendance/screens/auth/models/user_model.dart';
 
+import '../../auth/controllers/user_controller.dart';
+
 class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
 
@@ -15,8 +17,8 @@ class UserRepository extends GetxController {
         .add(user.toJson())
         .whenComplete(
           () => Get.snackbar("Success", "Your account has been created",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.green.withOpacity(0.1),
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.green.withOpacity(0.5),
               colorText: Colors.green),
         )
         .catchError((error, stackTrace) {
@@ -66,6 +68,18 @@ class UserRepository extends GetxController {
     final snapshot = await _db
         .collection("Attendance")
         .where("usertype", isEqualTo: "Student")
+        .get();
+    final attendanceData =
+        snapshot.docs.map((e) => AttendanceModel.fromSnapshot(e)).toList();
+    return attendanceData;
+  }
+
+  final UserController userController = Get.find<UserController>();
+  Future<List<AttendanceModel>> getOneUserStudentAttendance(
+      String email) async {
+    final snapshot = await _db
+        .collection("Attendance")
+        .where("Email", isEqualTo: email)
         .get();
     final attendanceData =
         snapshot.docs.map((e) => AttendanceModel.fromSnapshot(e)).toList();

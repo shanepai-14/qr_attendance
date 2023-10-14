@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/AttendanceStatusScreen.dart';
 import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/GuardAttendanceScreen.dart';
 import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardScannerScreen/GuardScannerScreen.dart';
 import 'package:qr_attendance/screens/dashboard/ListScreen/ListScreen.dart';
@@ -23,7 +24,7 @@ class _DashboardState extends State<GuardDashboardScreen> {
     List<Widget> _pages = [
       ProfileScreen(),
       GuardScannerScreen(),
-      GuardAttendanceScreen(),
+      AttendanceStatusScreen(),
     ];
 
     return Scaffold(

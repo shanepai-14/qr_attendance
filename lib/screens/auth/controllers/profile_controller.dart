@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
-import 'package:qr_attendance/screens/auth/models/user_model.dart';
 import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
 import 'package:qr_attendance/screens/repository/user_repository/user_repository.dart';
 
@@ -25,6 +24,14 @@ class ProfileController extends GetxController {
     return await _userRepo.getAllStudentAttendance();
   }
 
+  Future<List<AttendanceModel>> getUserStudentAttendance(String email) async {
+    return await _userRepo.getOneUserStudentAttendance(email);
+  }
+
+  Future<List<AttendanceModel>> getAllEmployeeAttendance() async {
+    return await _userRepo.getAllEmployeeAttendance();
+  }
+
   Future<List<AttendanceModel>> getAttendanceForDate(DateTime date) async {
     final List<AttendanceModel> allAttendance =
         await getAllAttendance(); // Replace with your existing method
@@ -41,12 +48,48 @@ class ProfileController extends GetxController {
     return filteredAttendance;
   }
 
+  Future<List<AttendanceModel>> getUserStudentAttendanceForDateRange(
+      DateTimeRange dateRange, String email) async {
+    final List<AttendanceModel> UserStudentAttendance =
+        await getUserStudentAttendance(email);
+
+    List<AttendanceModel> filteredAttendance =
+        UserStudentAttendance.where((attendance) {
+      DateTime checkinDate = attendance.checkin?.toDate() ??
+          DateTime(
+              2023, 10, 13); // Replace with a default date if checkin is null
+      return dateRange.start.isBefore(checkinDate) &&
+          dateRange.end.isAfter(checkinDate);
+    }).toList();
+
+    filteredAttendance.sort((a, b) => b.checkin!.compareTo(a.checkin!));
+    return filteredAttendance;
+  }
+
   Future<List<AttendanceModel>> getAttendanceForDateRange(
       DateTimeRange dateRange) async {
     final List<AttendanceModel> allAttendance = await getAllAttendance();
 
     List<AttendanceModel> filteredAttendance =
         allAttendance.where((attendance) {
+      DateTime checkinDate = attendance.checkin?.toDate() ??
+          DateTime(
+              2023, 10, 13); // Replace with a default date if checkin is null
+      return dateRange.start.isBefore(checkinDate) &&
+          dateRange.end.isAfter(checkinDate);
+    }).toList();
+
+    filteredAttendance.sort((a, b) => b.checkin!.compareTo(a.checkin!));
+    return filteredAttendance;
+  }
+
+  Future<List<AttendanceModel>> getAttendanceEmployeeForDateRange(
+      DateTimeRange dateRange) async {
+    final List<AttendanceModel> allEmployeeAttendance =
+        await getAllEmployeeAttendance();
+
+    List<AttendanceModel> filteredAttendance =
+        allEmployeeAttendance.where((attendance) {
       DateTime checkinDate = attendance.checkin?.toDate() ??
           DateTime(
               2023, 10, 13); // Replace with a default date if checkin is null

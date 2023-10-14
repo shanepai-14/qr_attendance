@@ -16,5 +16,5 @@ const String tRemember = "Remember Me?";
 const String tProfileImage = "assets/images/profile.jpg";
 
 const String StudentImage = "assets/images/student.png";
-
+const String EmployeeImage = "assets/images/employee.png";
 const String GuardImage = "assets/images/security.jpg";

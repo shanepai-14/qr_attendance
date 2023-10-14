@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:fk_toggle/fk_toggle.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../repository/authentication_repository/authetication_repository.dart';
@@ -24,14 +26,14 @@ class _GuardScannerScreenState extends State<GuardScannerScreen> {
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
-    controller!.resumeCamera();
-  }
+  // @override
+  // void reassemble() {
+  //   super.reassemble();
+  //   if (Platform.isAndroid) {
+  //     controller!.pauseCamera();
+  //   }
+  //   controller!.resumeCamera();
+  // }
 
   bool canToggle = true;
 
@@ -178,7 +180,16 @@ class _GuardScannerScreenState extends State<GuardScannerScreen> {
 
           try {
             AuthenticationRepository().fetchAndUploadAttendance(email, checkin);
+            if (Platform.isAndroid) {
+              controller.pauseCamera();
+            }
+            controller.resumeCamera();
           } catch (e) {
+            Get.snackbar("Something went wrong", "Please try again ",
+                duration: Duration(seconds: 1),
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.red.shade200,
+                colorText: Colors.white);
             print(
                 'Error Scanning : Try again: $e' + email + scanData.toString());
           }

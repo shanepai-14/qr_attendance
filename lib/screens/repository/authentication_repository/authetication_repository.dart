@@ -10,6 +10,7 @@ import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardDashboard.da
 import 'package:qr_attendance/screens/dashboard/dashboard.dart';
 import 'package:qr_attendance/screens/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:intl/intl.dart';
+import '../../auth/controllers/user_controller.dart';
 import '../../auth/models/user_model.dart';
 import '../user_repository/user_repository.dart';
 
@@ -70,18 +71,41 @@ class AuthenticationRepository extends GetxController {
   //     }
   //   }
   // }
+  final UserController userController = Get.find<UserController>();
   final userRepo = Get.put(UserRepository());
+  // void _setInitialScreen(User? user) async {
+  //   if (user == null) {
+  //     Get.off(() => const WelcomeScreen());
+  //   } else {
+  //     String email = user.email!;
+  //     UserModel userData = await userRepo.getUserDetails(email);
+  //     String? usertype = userController.user.value.usertype;
+  //     if (usertype == 'Student') {
+  //       Get.off(() => const Dashboard());
+  //       print("user dashboard $usertype");
+  //     } else {
+  //       Get.off(() => const GuardDashboardScreen());
+  //       print("user admindashboard $usertype");
+  //     }
+  //   }
+  // }
   void _setInitialScreen(User? user) async {
     if (user == null) {
       Get.off(() => const WelcomeScreen());
     } else {
       String email = user.email!;
       UserModel userData = await userRepo.getUserDetails(email);
+      userController.user.value =
+          userData; // Set the user data in the controller
+      String? usertype =
+          userData.usertype; // Access usertype from the fetched data
 
-      if (userData.usertype == 'Student') {
+      if (usertype == 'Student' || usertype == 'Employee') {
         Get.off(() => const Dashboard());
+        print("user dashboard $usertype");
       } else {
         Get.off(() => const GuardDashboardScreen());
+        print("user admindashboard $usertype");
       }
     }
   }
@@ -94,6 +118,11 @@ class AuthenticationRepository extends GetxController {
       // Step 2: Upload to Attendance collection
       await uploadToAttendanceCollection(userData, checkin);
     } catch (e) {
+      Get.snackbar("ERROR", "PLEASE CHECK YOUR INTERNET ",
+          duration: Duration(seconds: 1),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red.shade200,
+          colorText: Colors.white);
       print('Error: $e');
     }
   }
@@ -162,9 +191,9 @@ class AuthenticationRepository extends GetxController {
           'checkout': timestamp,
           'usertype': userData.usertype
         };
-
+        String fullName = userData.fullName ?? '';
         await FirebaseFirestore.instance.collection('Attendance').add(data);
-        Get.snackbar("Successfully", "Check In :" + userData.fullName,
+        Get.snackbar("Successfully", "Check In :" + fullName,
             snackPosition: SnackPosition.TOP,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.green.shade200,
@@ -180,8 +209,9 @@ class AuthenticationRepository extends GetxController {
               .doc(documentID)
               .update({'checkout': Timestamp.now()});
         }
-        Get.snackbar("Successfully",
-            "Check out for today's attendance : " + userData.fullName,
+        String fullName = userData.fullName ?? '';
+        Get.snackbar(
+            "Successfully", "Check out for today's attendance : " + fullName,
             snackPosition: SnackPosition.TOP,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.blue.shade200,
@@ -310,6 +340,12 @@ class AuthenticationRepository extends GetxController {
       if (userDoc.exists) {
         String? userType = userDoc.get('usertype');
 
+        UserModel userData = UserModel.fromSnapshot(
+            userDoc as DocumentSnapshot<Map<String, dynamic>>);
+
+        UserController userController = Get.find<UserController>();
+        await userController.saveUserData(userData);
+
         if (userType != null && userType.isNotEmpty) {
           if (userType == 'Student') {
             Get.off(() => const Dashboard());
@@ -320,12 +356,12 @@ class AuthenticationRepository extends GetxController {
       }
 
       Get.snackbar("Login", "Successfully",
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.white,
           colorText: Colors.black);
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Wrong Credentials", "Check your email or password ",
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.white,
           colorText: Colors.black);
     } catch (e) {

@@ -47,6 +47,9 @@ dependencies:
   screenshot: ^2.1.0
   calendar_date_picker2: ^0.5.3
   filter_list: ^1.0.2
+  excel: ^2.1.0
+  android_path_provider: ^0.3.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

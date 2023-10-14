@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
-import 'package:qr_attendance/screens/repository/user_repository/user_repository.dart';
-
 import '../models/user_model.dart';
 
 class SignUpController extends GetxController {
@@ -22,6 +20,7 @@ class SignUpController extends GetxController {
   // }
 
   Future<void> LoginUser(String email, String password) async {
+    //await Get.find<UserController>().saveUserData(userData);
     await AuthenticationRepository.instance
         .LoginUserWithEmailAndPassword(email, password);
   }
@@ -32,7 +31,7 @@ class SignUpController extends GetxController {
           .createUserWithEmailAndPassword(email, password, user);
     } on Exception catch (e) {
       Get.snackbar("Email", "Already exist" + e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green.withOpacity(0.1),
           colorText: Colors.green);
     }

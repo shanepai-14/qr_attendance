@@ -9,7 +9,7 @@ Future<void> logOut() async {
   try {
     await FirebaseAuth.instance.signOut();
     Get.snackbar("Logout", "Logout Successfully ",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.white.withOpacity(0.5),
         colorText: Colors.black);
     SignUpController.instance.resetControllerData();

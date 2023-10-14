@@ -4,13 +4,14 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:qr_attendance/firebase_options.dart';
+import 'package:qr_attendance/screens/auth/controllers/user_controller.dart';
 import 'package:qr_attendance/screens/auth/welcome.dart';
 import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
 
-void main() {
+Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-
+    await Get.putAsync<UserController>(() async => UserController());
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
         .then((value) => Get.put(AuthenticationRepository()));
   } on Exception catch (e) {
