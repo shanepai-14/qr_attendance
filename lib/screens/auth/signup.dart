@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/login.dart';
-import 'package:qr_attendance/screens/constants/constants.dart';
-import 'package:qr_attendance/screens/widgets/form/FormHeaderWidget.dart';
+import 'package:Dvciancheck/screens/auth/login.dart';
+import 'package:Dvciancheck/screens/constants/constants.dart';
+import 'package:Dvciancheck/screens/widgets/form/FormHeaderWidget.dart';
 
 import 'SignUpFormWidget.dart';
 

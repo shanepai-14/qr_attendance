@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
-import 'package:qr_attendance/screens/auth/forgot_password_otp/Logout.dart';
-import 'package:qr_attendance/screens/constants/constants.dart';
-import 'package:qr_attendance/screens/dashboard/ProfileScreen/SettingScreen.dart';
-import 'package:qr_attendance/screens/dashboard/ProfileScreen/UpdateProfileScreen.dart';
+import 'package:Dvciancheck/screens/auth/forgot_password_otp/Logout.dart';
+import 'package:Dvciancheck/screens/constants/constants.dart';
+import 'package:Dvciancheck/screens/dashboard/ProfileScreen/SettingScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/ProfileScreen/UpdateProfileScreen.dart';
 import '../../auth/controllers/profile_controller.dart';
 import '../../auth/controllers/user_controller.dart';
 import 'ProfileScreenWidget.dart';
@@ -136,11 +136,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Get.to(() => SettingsScreen());
                       },
                     ),
-                  ),
-                  ProfileMenuWidget(
-                    title: "Information",
-                    icon: LineAwesomeIcons.info,
-                    onPress: () {},
                   ),
                   const Divider(),
                   SizedBox(

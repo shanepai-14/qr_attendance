@@ -1,4 +1,4 @@
-name: qr_attendance
+name: Dvciancheck
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -65,13 +65,13 @@ flutter_icons:
 flutter_native_splash:
   color: "#f7f6f1"
   color_dark: "#272727"
-  image: assets/images/dvclogo.png
-  image_dark: assets/images/dvclogo.png
+  image: assets/icon.png
+  image_dark: assets/icon.png
 
   android_12:
-    image: assets/images/dvclogo.png
+    image: assets/icon.png
     icon_background_color: "#f7f6f1"
-    image_dark: assets/images/dvclogo.png
+    image_dark: assets/icon.png
     icon_background_color_dark: "#272727"
 
 

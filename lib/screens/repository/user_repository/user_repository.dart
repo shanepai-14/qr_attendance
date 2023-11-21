@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
-import 'package:qr_attendance/screens/auth/models/user_model.dart';
+import 'package:Dvciancheck/screens/auth/models/attendance_model.dart';
+import 'package:Dvciancheck/screens/auth/models/user_model.dart';
 
 import '../../auth/controllers/user_controller.dart';
 

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/login.dart';
-import 'package:qr_attendance/screens/auth/signup.dart';
-import 'package:qr_attendance/screens/widgets/fade_in_animation/animation_design.dart';
-import 'package:qr_attendance/screens/widgets/fade_in_animation/animation_model.dart';
-import 'package:qr_attendance/screens/widgets/fade_in_animation/splash_screen_controller.dart';
+import 'package:Dvciancheck/screens/auth/login.dart';
+import 'package:Dvciancheck/screens/auth/signup.dart';
+import 'package:Dvciancheck/screens/widgets/fade_in_animation/animation_design.dart';
+import 'package:Dvciancheck/screens/widgets/fade_in_animation/animation_model.dart';
+import 'package:Dvciancheck/screens/widgets/fade_in_animation/splash_screen_controller.dart';
 import '../constants/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {

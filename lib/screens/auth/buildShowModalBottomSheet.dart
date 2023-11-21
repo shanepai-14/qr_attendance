@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/forgot_password_mail/forgot_password_mail.dart';
+import 'package:Dvciancheck/screens/auth/forgot_password_mail/forgot_password_mail.dart';
 
 import 'ForgotPasswordBtnWidget.dart';
 

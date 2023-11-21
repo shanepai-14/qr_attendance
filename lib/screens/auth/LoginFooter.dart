@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_attendance/screens/auth/welcome.dart';
+import 'package:Dvciancheck/screens/auth/welcome.dart';
 
 class LoginFooter extends StatelessWidget {
   const LoginFooter({

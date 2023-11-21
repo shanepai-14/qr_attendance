@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/controllers/signup_contoller.dart';
-import 'package:qr_attendance/screens/auth/models/user_model.dart';
-import 'package:qr_attendance/screens/repository/user_repository/user_repository.dart';
+import 'package:Dvciancheck/screens/auth/controllers/signup_contoller.dart';
+import 'package:Dvciancheck/screens/auth/models/user_model.dart';
+import 'package:Dvciancheck/screens/repository/user_repository/user_repository.dart';
 
 class EmployeeSignUpFormWidget extends StatefulWidget {
   const EmployeeSignUpFormWidget({Key? key}) : super(key: key);

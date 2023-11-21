@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
+import 'package:Dvciancheck/screens/repository/authentication_repository/authetication_repository.dart';
 import '../models/user_model.dart';
 
 class SignUpController extends GetxController {

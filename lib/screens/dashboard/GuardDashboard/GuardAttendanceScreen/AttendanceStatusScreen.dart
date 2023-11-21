@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/EmployeeAttendanceScreen.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/GuardAttendanceScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardAttendanceScreen/EmployeeAttendanceScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardAttendanceScreen/GuardAttendanceScreen.dart';
 import 'package:intl/intl.dart';
 
 class AttendanceStatusScreen extends StatefulWidget {

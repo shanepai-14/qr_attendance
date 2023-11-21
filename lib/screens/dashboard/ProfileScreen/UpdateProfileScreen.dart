@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
-import 'package:qr_attendance/screens/auth/controllers/profile_controller.dart';
-import 'package:qr_attendance/screens/auth/models/user_model.dart';
+import 'package:Dvciancheck/screens/auth/controllers/profile_controller.dart';
+import 'package:Dvciancheck/screens/auth/models/user_model.dart';
 import 'package:intl/intl.dart';
 import '../../constants/constants.dart';
 

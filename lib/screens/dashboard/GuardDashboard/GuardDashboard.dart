@@ -1,10 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/AttendanceStatusScreen.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardAttendanceScreen/GuardAttendanceScreen.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardScannerScreen/GuardScannerScreen.dart';
-import 'package:qr_attendance/screens/dashboard/ListScreen/ListScreen.dart';
-import 'package:qr_attendance/screens/dashboard/ScannerScreen/ScannerScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardAttendanceScreen/AttendanceStatusScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardAttendanceScreen/GuardAttendanceScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardScannerScreen/GuardScannerScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/ListScreen/ListScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/ScannerScreen/ScannerScreen.dart';
 
 import '../ProfileScreen/ProfileScreen.dart';
 

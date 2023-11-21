@@ -5,7 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 
 import 'package:intl/intl.dart';
-import 'package:qr_attendance/screens/dashboard/ListScreen/StudentAttendanceScreen.dart';
+import 'package:Dvciancheck/screens/dashboard/ListScreen/StudentAttendanceScreen.dart';
 import '../../auth/controllers/user_controller.dart';
 import '../../auth/models/attendance_model.dart';
 import '../../repository/authentication_repository/authetication_repository.dart';

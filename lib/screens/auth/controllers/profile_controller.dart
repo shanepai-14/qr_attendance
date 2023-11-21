@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/models/attendance_model.dart';
-import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
-import 'package:qr_attendance/screens/repository/user_repository/user_repository.dart';
+import 'package:Dvciancheck/screens/auth/models/attendance_model.dart';
+import 'package:Dvciancheck/screens/repository/authentication_repository/authetication_repository.dart';
+import 'package:Dvciancheck/screens/repository/user_repository/user_repository.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();

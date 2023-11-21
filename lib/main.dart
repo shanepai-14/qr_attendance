@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:qr_attendance/firebase_options.dart';
-import 'package:qr_attendance/screens/auth/controllers/user_controller.dart';
-import 'package:qr_attendance/screens/auth/welcome.dart';
-import 'package:qr_attendance/screens/repository/authentication_repository/authetication_repository.dart';
+import 'package:Dvciancheck/firebase_options.dart';
+import 'package:Dvciancheck/screens/auth/controllers/user_controller.dart';
+import 'package:Dvciancheck/screens/auth/welcome.dart';
+import 'package:Dvciancheck/screens/repository/authentication_repository/authetication_repository.dart';
 
 Future<void> main() async {
   try {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Dvciancheck',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,

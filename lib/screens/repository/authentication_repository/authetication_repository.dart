@@ -6,13 +6,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fk_toggle/fk_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/login.dart';
-import 'package:qr_attendance/screens/auth/welcome.dart';
-import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardDashboard.dart';
-import 'package:qr_attendance/screens/dashboard/dashboard.dart';
-import 'package:qr_attendance/screens/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
+import 'package:Dvciancheck/screens/auth/login.dart';
+import 'package:Dvciancheck/screens/auth/welcome.dart';
+import 'package:Dvciancheck/screens/dashboard/GuardDashboard/GuardDashboard.dart';
+import 'package:Dvciancheck/screens/dashboard/dashboard.dart';
+import 'package:Dvciancheck/screens/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:intl/intl.dart';
-import 'package:qr_attendance/screens/repository/authentication_repository/smsapi.dart';
+import 'package:Dvciancheck/screens/repository/authentication_repository/smsapi.dart';
 import '../../auth/controllers/user_controller.dart';
 import '../../auth/models/user_model.dart';
 import '../user_repository/user_repository.dart';
@@ -161,13 +161,15 @@ class AuthenticationRepository extends GetxController {
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {
-        'Authorization': 'Bearer $apiKey:$apiSecret',
-        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'content-type': 'application/x-www-form-urlencoded',
       },
-      body: jsonEncode({
-        'to': phoneNumber,
-        'message': message,
-      }),
+      body: {
+        'api_key': apiKey,
+        'api_secret': apiSecret,
+        'to': phoneNumber, // Replace with your sender ID or leave as 'string'
+        'text': message,
+      },
     );
 
     if (response.statusCode == 200) {
@@ -176,6 +178,19 @@ class AuthenticationRepository extends GetxController {
       print('Failed to send SMS. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
+  }
+
+  String addPlusToPhoneNumber(String phoneNumber) {
+    if (phoneNumber.startsWith('+')) {
+      return phoneNumber;
+    } else {
+      return '+' + phoneNumber;
+    }
+  }
+
+  String formatTimestamp(DateTime timestamp) {
+    final formatter = DateFormat('MMMM d, yyyy h:mm a');
+    return formatter.format(timestamp);
   }
 
   Future<void> uploadToAttendanceCollection(
@@ -222,6 +237,16 @@ class AuthenticationRepository extends GetxController {
         };
         String fullName = userData.fullName ?? '';
         await FirebaseFirestore.instance.collection('Attendance').add(data);
+
+        final checkintime = Timestamp.now();
+        final formattedTimestamp = formatTimestamp(checkintime.toDate());
+        String? phone = userData.phoneNo;
+        String newPhoneNumber = addPlusToPhoneNumber(phone!);
+        String message = fullName +
+            " checkin " +
+            formattedTimestamp +
+            " at  Davao Vision College";
+        sendSms(newPhoneNumber, message);
         Get.snackbar("Successfully", "Check In :" + fullName,
             snackPosition: SnackPosition.TOP,
             duration: Duration(seconds: 2),
@@ -239,7 +264,16 @@ class AuthenticationRepository extends GetxController {
               .update({'checkout': Timestamp.now()});
         }
         String fullName = userData.fullName ?? '';
-        sendSms('09913731732', 'User Login');
+        String? phone = userData.phoneNo;
+        String newPhoneNumber = addPlusToPhoneNumber(phone!);
+        final checkoutime = Timestamp.now();
+        final formattedTimestamp = formatTimestamp(checkoutime.toDate());
+        String message = fullName +
+            " checkout " +
+            formattedTimestamp +
+            " at  Davao Vision College";
+
+        sendSms(newPhoneNumber, message);
         Get.snackbar(
             "Successfully", "Check out for today's attendance : " + fullName,
             snackPosition: SnackPosition.TOP,

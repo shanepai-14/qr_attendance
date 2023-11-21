@@ -4,9 +4,9 @@ const tButtonHeight = 15.0;
 
 const String tWelcomeScreenImage = "assets/images/welcome_screen.png";
 
-const String tWelcomeTitle = "ATTENDANCE MONITORING";
+const String tWelcomeTitle = "DVCIANCHECK";
 const String tWelcomeSubTitle =
-    "Efficient Attendance Tracking with QR Codes: Simplifying Record-keeping for Enhanced Accountability.";
+    "ATTENDANCE MONITORING MOBILE APP USING QR CODES WITH SMS NOTIFICATIO";
 const String tLoginSub = "Simplifying Attendance";
 
 const String tGoogleImage = "assets/images/google.png";

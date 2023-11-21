@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:qr_attendance/screens/auth/welcome.dart';
+import 'package:Dvciancheck/screens/auth/welcome.dart';
 
 class SplashScreenController extends GetxController {
   static SplashScreenController get find => Get.find();

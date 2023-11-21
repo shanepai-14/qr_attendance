@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/forgot_password_otp/otp_screen.dart';
+import 'package:Dvciancheck/screens/auth/forgot_password_otp/otp_screen.dart';
 
 import '../../constants/constants.dart';
 import '../../widgets/form/FormHeaderWidget.dart';

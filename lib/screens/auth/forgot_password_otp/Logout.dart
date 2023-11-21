@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/controllers/signup_contoller.dart';
-import 'package:qr_attendance/screens/auth/welcome.dart';
+import 'package:Dvciancheck/screens/auth/controllers/signup_contoller.dart';
+import 'package:Dvciancheck/screens/auth/welcome.dart';
 
 Future<void> logOut() async {
   try {

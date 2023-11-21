@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/EmployeeSignUp.dart';
-import 'package:qr_attendance/screens/auth/signup.dart';
+import 'package:Dvciancheck/screens/auth/EmployeeSignUp.dart';
+import 'package:Dvciancheck/screens/auth/signup.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
