@@ -9,8 +9,6 @@ import 'package:qr_attendance/screens/dashboard/ProfileScreen/SettingScreen.dart
 import 'package:qr_attendance/screens/dashboard/ProfileScreen/UpdateProfileScreen.dart';
 import '../../auth/controllers/profile_controller.dart';
 import '../../auth/controllers/user_controller.dart';
-import '../../auth/models/user_model.dart';
-import '../../auth/welcome.dart';
 import 'ProfileScreenWidget.dart';
 
 class ProfileScreen extends StatefulWidget {

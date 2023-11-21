@@ -10,7 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
-import 'package:permission_handler/permission_handler.dart';
+import '../../auth/controllers/user_controller.dart';
 
 class ScannerScreen extends StatefulWidget {
   ScannerScreen({Key? key}) : super(key: key);
@@ -21,6 +21,9 @@ class ScannerScreen extends StatefulWidget {
 
 User? user = FirebaseAuth.instance.currentUser;
 String? userEmail = user?.email;
+final UserController userController = Get.find<UserController>();
+
+String CurrentUserEmail = userController.user.value.email.toString();
 
 class _ScannerScreenState extends State<ScannerScreen> {
   @protected
@@ -35,9 +38,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   void initState() {
     super.initState();
-
+    userController.loadUserData();
     qrCode = QrCode.fromData(
-      data: userEmail ?? "",
+      data: CurrentUserEmail,
       errorCorrectLevel: QrErrorCorrectLevel.H,
     );
 
@@ -45,7 +48,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
     decoration = const PrettyQrDecoration(
       shape: PrettyQrSmoothSymbol(
-        color: Color(0xFF74565F),
+        color: Color(0xFF000000),
       ),
       image: _PrettyQrSettings.kDefaultPrettyQrDecorationImage,
     );

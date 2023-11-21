@@ -218,7 +218,7 @@ class _ScannerScreenState extends State<ListScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        "Welcome" +
+                        "Welcome " +
                             userController.user.value.fullName.toString(),
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),

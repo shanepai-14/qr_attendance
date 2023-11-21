@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:qr_attendance/screens/auth/controllers/profile_controller.dart';
 import 'package:qr_attendance/screens/auth/models/user_model.dart';
-
+import 'package:intl/intl.dart';
 import '../../constants/constants.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -12,6 +13,11 @@ class UpdateProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatTimestamp(Timestamp? timestamp) {
+      DateTime? dateTime = timestamp?.toDate();
+      return DateFormat('MMMM d, y hh:mm a').format(dateTime!);
+    }
+
     final controller = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
@@ -180,9 +186,8 @@ class UpdateProfileScreen extends StatelessWidget {
                                   style: TextStyle(fontSize: 12),
                                   children: [
                                     TextSpan(
-                                        text: userData.timestamp
-                                            ?.toDate()
-                                            .toString(),
+                                        text:
+                                            formatTimestamp(userData.timestamp),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12))

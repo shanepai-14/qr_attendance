@@ -332,74 +332,80 @@ class _GuardAttendanceScreenState extends State<GuardAttendanceScreen> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       filteredAttendance = snapshot.data!;
-                      if (selectedCourses.isNotEmpty) {
-                        filteredAttendance =
-                            filteredAttendance.where((attendance) {
-                          return selectedCourses.contains(attendance.course);
-                        }).toList();
-                      }
-                      if (selectedYears.isNotEmpty) {
-                        filteredAttendance =
-                            filteredAttendance.where((attendance) {
-                          return selectedYears.contains(attendance.year);
-                        }).toList();
-                      }
-                      if (searchQuery.isNotEmpty) {
-                        filteredAttendance =
-                            filteredAttendance.where((attendance) {
-                          return attendance.fullName
-                              .toLowerCase()
-                              .contains(searchQuery.toLowerCase());
-                        }).toList();
-                      }
-                      return ListView.builder(
-                        itemCount: filteredAttendance
-                            .length, // Replace with the actual length of your list
-                        itemBuilder: (BuildContext context, int index) {
-                          final StudentData = filteredAttendance[index];
-                          return Card(
-                            elevation: 4,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 5),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.all(10),
-                              leading: Icon(Icons.person_outline_outlined),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${StudentData.fullName}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22),
-                                  ),
-                                  Text(
-                                      "Course: ${StudentData.course} ${StudentData.year}"),
-                                  Text(
-                                      "Date: ${formatDate(StudentData.checkin)}"),
-                                ],
-                              ),
-                              trailing: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "   IN: ${formatTime(StudentData.checkin)}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                  Text(
-                                      "OUT: ${formatTime(StudentData.checkout)}",
+                      if (filteredAttendance.isNotEmpty) {
+                        if (selectedCourses.isNotEmpty) {
+                          filteredAttendance =
+                              filteredAttendance.where((attendance) {
+                            return selectedCourses.contains(attendance.course);
+                          }).toList();
+                        }
+                        if (selectedYears.isNotEmpty) {
+                          filteredAttendance =
+                              filteredAttendance.where((attendance) {
+                            return selectedYears.contains(attendance.year);
+                          }).toList();
+                        }
+                        if (searchQuery.isNotEmpty) {
+                          filteredAttendance =
+                              filteredAttendance.where((attendance) {
+                            return attendance.fullName
+                                .toLowerCase()
+                                .contains(searchQuery.toLowerCase());
+                          }).toList();
+                        }
+                        return ListView.builder(
+                          itemCount: filteredAttendance
+                              .length, // Replace with the actual length of your list
+                          itemBuilder: (BuildContext context, int index) {
+                            final StudentData = filteredAttendance[index];
+                            return Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.all(10),
+                                leading: Icon(Icons.person_outline_outlined),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${StudentData.fullName}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18))
-                                ],
+                                          fontSize: 22),
+                                    ),
+                                    Text(
+                                        "Course: ${StudentData.course} ${StudentData.year}"),
+                                    Text(
+                                        "Date: ${formatDate(StudentData.checkin)}"),
+                                  ],
+                                ),
+                                trailing: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "   IN: ${formatTime(StudentData.checkin)}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                    Text(
+                                        "OUT: ${formatTime(StudentData.checkout)}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18))
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(
+                          child: Text('No data for the selected date'),
+                        );
+                      }
                     } else if (snapshot.hasError) {
                       return Center(
                         child: Text(snapshot.error.toString() +

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:qr_attendance/screens/auth/signup.dart';
 import 'package:qr_attendance/screens/auth/welcome.dart';
 
 class LoginFooter extends StatelessWidget {
@@ -32,14 +29,14 @@ class LoginFooter extends StatelessWidget {
         const SizedBox(
           height: 10.0,
         ),
-        TextButton(
-            onPressed: () {},
-            child: Text.rich(TextSpan(
-                text: "Don't have an Account? ",
-                style: Theme.of(context).textTheme.bodySmall,
-                children: [
-                  TextSpan(text: "Signup", style: TextStyle(color: Colors.blue))
-                ]))),
+        // TextButton(
+        //     onPressed: () {},
+        //     child: Text.rich(TextSpan(
+        //         text: "Don't have an Account? ",
+        //         style: Theme.of(context).textTheme.bodySmall,
+        //         children: [
+        //           TextSpan(text: "Signup", style: TextStyle(color: Colors.blue))
+        //         ]))),
         Wrap(children: [
           StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance

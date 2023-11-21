@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +12,7 @@ import 'package:qr_attendance/screens/dashboard/GuardDashboard/GuardDashboard.da
 import 'package:qr_attendance/screens/dashboard/dashboard.dart';
 import 'package:qr_attendance/screens/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_attendance/screens/repository/authentication_repository/smsapi.dart';
 import '../../auth/controllers/user_controller.dart';
 import '../../auth/models/user_model.dart';
 import '../user_repository/user_repository.dart';
@@ -149,6 +152,32 @@ class AuthenticationRepository extends GetxController {
   //     print('Error: $e');
   //   }
   // }
+  static const String apiKey = 'JFDnkvoaZLt-nwcCDboEV8v8V3zh6X';
+  static const String apiSecret = 'CcTY03NAMlj2GWwGpJLLJkbZ1msY1K';
+  // static const String senderId = 'YOUR_SENDER_ID';
+  static const String apiUrl = 'https://api.movider.co/v1/sms';
+
+  Future<void> sendSms(String phoneNumber, String message) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Authorization': 'Bearer $apiKey:$apiSecret',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'to': phoneNumber,
+        'message': message,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('SMS sent successfully');
+    } else {
+      print('Failed to send SMS. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+
   Future<void> uploadToAttendanceCollection(
       UserModel userData, bool checkin) async {
     try {
@@ -210,6 +239,7 @@ class AuthenticationRepository extends GetxController {
               .update({'checkout': Timestamp.now()});
         }
         String fullName = userData.fullName ?? '';
+        sendSms('09913731732', 'User Login');
         Get.snackbar(
             "Successfully", "Check out for today's attendance : " + fullName,
             snackPosition: SnackPosition.TOP,

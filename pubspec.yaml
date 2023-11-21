@@ -50,11 +50,17 @@ dependencies:
   excel: ^2.1.0
   android_path_provider: ^0.3.0
   shared_preferences: ^2.2.2
+  http: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+   android: true
+   ios: true
+   image_path: "assets/icon.png"
 
 flutter_native_splash:
   color: "#f7f6f1"
@@ -80,5 +86,5 @@ flutter:
   assets:
     - assets/images/
     - assets/sounds/
-
+    - assets/icon.png
 
