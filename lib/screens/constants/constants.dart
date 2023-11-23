@@ -6,7 +6,7 @@ const String tWelcomeScreenImage = "assets/images/welcome_screen.png";
 
 const String tWelcomeTitle = "DVCIANCHECK";
 const String tWelcomeSubTitle =
-    "ATTENDANCE MONITORING MOBILE APP USING QR CODES WITH SMS NOTIFICATIO";
+    "ATTENDANCE MONITORING MOBILE APP USING QR CODES WITH SMS NOTIFICATION";
 const String tLoginSub = "Simplifying Attendance";
 
 const String tGoogleImage = "assets/images/google.png";

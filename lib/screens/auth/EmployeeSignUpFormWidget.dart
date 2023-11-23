@@ -115,6 +115,7 @@ class _EmployeeSignUpFormWidgetState extends State<EmployeeSignUpFormWidget> {
                 'Office Staff',
                 'Registrar',
                 'Management',
+                'Guard'
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
